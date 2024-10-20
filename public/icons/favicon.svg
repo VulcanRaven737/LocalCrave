@@ -1,0 +1,26 @@
+<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <!-- House shape representing home kitchen -->
+  <path d="M50 70 L30 70 L30 45 L50 30 L70 45 L70 70 L50 70" 
+        fill="#FF8C8C" 
+        stroke="#FFFFFF" 
+        stroke-width="2"/>
+  
+  <!-- Chimney with steam/aroma waves -->
+  <path d="M60 35 L60 25" 
+        stroke="#FFFFFF" 
+        stroke-width="2"/>
+  <path d="M58 22 Q63 18 68 22 Q73 26 78 22" 
+        fill="none" 
+        stroke="#FFFFFF" 
+        stroke-width="2"/>
+  <path d="M56 16 Q61 12 66 16 Q71 20 76 16" 
+        fill="none" 
+        stroke="#FFFFFF" 
+        stroke-width="2"/>
+  
+  <!-- Plate/dish shape -->
+  <circle cx="50" cy="50" r="8" 
+          fill="#1A1A1A" 
+          stroke="#FFFFFF" 
+          stroke-width="2"/>
+</svg>
