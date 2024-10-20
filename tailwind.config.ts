@@ -51,7 +51,7 @@ const config: Config = {
   				'5': 'hsl(var(--chart-5))'
   			},
 			blueish: {
-				100: '#a294f7',
+				100: '#756cf3',
 			},
 			blackish: {
 				100: '#282828',

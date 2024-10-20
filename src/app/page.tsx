@@ -7,17 +7,19 @@ export default function Home() {
       position="sticky"
       className="flex flex-wrap items-center justify-between p-4 bg-black text-white"
     >
-      <NavbarBrand>
+      {/* Left section with logo */}
+      <NavbarBrand className="flex justify-start">
         <Image 
           src='icons/main-logo.svg'
           alt='main-logo'
-          width={150}
-          height={150}
-          className="w-auto h-auto max-w-[100px] sm:max-w-[150px]" 
+          width={300}
+          height={300}
+          className="w-300 h-300 max-w-[400px] sm:max-w-[150px]" 
         />
       </NavbarBrand>
 
-      <NavbarContent className="hidden md:flex justify-center space-x-4"> 
+      {/* Navigation links in the center */}
+      <NavbarContent className="flex justify-center space-x-4"> 
         <NavbarItem>
           <Link href="#" className="text-gray-300 hover:text-white">
             Features
@@ -30,29 +32,17 @@ export default function Home() {
         </NavbarItem>
       </NavbarContent>
 
-      <NavbarContent className="flex items-center space-x-4">
+      {/* Buttons aligned to the right */}
+      <NavbarContent className="flex justify-end items-center space-x-4">
         <NavbarItem>
-          <Button as={Link} color="primary" href="#" variant="flat" className="bg-blueish-100">
+          <Button as={Link} href="#" variant="ghost" radius="lg" className="bg-blueish-100">
             Login
           </Button>
         </NavbarItem>
         <NavbarItem>
-          <Button as={Link} color="primary" href="#" variant="flat" className="bg-blueish-100">
+          <Button as={Link} href="#" variant="shadow" radius="lg" className="bg-blueish-100">
             Sign Up
           </Button>
-        </NavbarItem>
-      </NavbarContent>
-
-      <NavbarContent className="flex md:hidden mt-2 space-x-4 justify-center">
-        <NavbarItem>
-          <Link href="#" className="text-gray-300 hover:text-white">
-            Features
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link href="#" className="text-gray-300 hover:text-white">
-            Customers
-          </Link>
         </NavbarItem>
       </NavbarContent>
     </Navbar>
