@@ -1,50 +1,13 @@
-import Image from "next/image";
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button } from "@nextui-org/react";
+'use client'
 
 export default function Home() {
   return (
-    <Navbar
-      position="sticky"
-      className="flex flex-wrap items-center justify-between p-4 bg-black text-white"
-    >
-      {/* Left section with logo */}
-      <NavbarBrand className="flex justify-start">
-        <Image 
-          src='icons/main-logo.svg'
-          alt='main-logo'
-          width={300}
-          height={300}
-          className="w-300 h-300 max-w-[400px] sm:max-w-[150px]" 
-        />
-      </NavbarBrand>
-
-      {/* Navigation links in the center */}
-      <NavbarContent className="flex justify-center space-x-4"> 
-        <NavbarItem>
-          <Link href="#" className="text-gray-300 hover:text-white">
-            Features
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link href="#" className="text-gray-300 hover:text-white">
-            Customers
-          </Link>
-        </NavbarItem>
-      </NavbarContent>
-
-      {/* Buttons aligned to the right */}
-      <NavbarContent className="flex justify-end items-center space-x-4">
-        <NavbarItem>
-          <Button as={Link} href="#" variant="ghost" radius="lg" className="bg-blueish-100">
-            Login
-          </Button>
-        </NavbarItem>
-        <NavbarItem>
-          <Button as={Link} href="#" variant="shadow" radius="lg" className="bg-blueish-100">
-            Sign Up
-          </Button>
-        </NavbarItem>
-      </NavbarContent>
-    </Navbar>
+    <nav className="p-3 bg-black max-w-auto flex relative">
+      <img src='icons/main-logo.svg' width={150} height={150} onClick={() => window.location.href='/'}/>
+      <button className="text-white absolute left-10 ml-32 pl-32 mt-7">Features</button>
+      <button className="text-white absolute left-20 ml-32 pl-48 mt-7">Customers</button>
+      <button className="text-white absolute right-10 mr-8 mt-6  rounded-xl bg-blueish-100 w-14 h-8">Login</button>
+      <button className="text-white absolute right-20 mr-16 mt-6  rounded-xl bg-blueish-100 w-16 h-8">Signup</button>
+    </nav>
   );
 }
