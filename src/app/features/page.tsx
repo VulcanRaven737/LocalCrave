@@ -2,6 +2,6 @@
 
 export default function intro(){
     return(
-        <h1 className="text-white">hello!</h1>
+        <h1 className="text-black">hello!</h1>
     );
 }
