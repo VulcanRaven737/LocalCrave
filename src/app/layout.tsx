@@ -13,8 +13,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <link rel="icon" href="icons/favicon.svg" sizes="128x128" />
-      <body>{children}</body>
+      <link rel="icon" href="icons/favicon.svg" sizes="128x128"/>
+      <body>
+        {children}
+      </body>
     </html>
   )
 }

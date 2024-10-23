@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200">
   <!-- Background circle -->
-  <circle cx="200" cy="100" r="80" fill="#090933" opacity="0.1"/>
+  <circle cx="200" cy="100" r="80" fill="#FC8019" opacity="0.1"/>
   
   <!-- Fork icon -->
   <path d="M160 40 L160 100 M140 40 L140 70 Q140 80 150 80 L160 80 M180 40 L180 70 Q180 80 170 80 L160 80 M160 100 L160 160" 
-        stroke="#090933" 
+        stroke="#FC8019" 
         stroke-width="8" 
         stroke-linecap="round"
         fill="none"/>
@@ -14,18 +14,18 @@
         font-family="Arial" 
         font-size="40" 
         font-weight="bold" 
-        fill="#090933">Local</text>
+        fill="#FC8019">Local</text>
   
   <!-- Text "Crave" -->
   <text x="210" y="125" 
         font-family="Arial" 
         font-size="40" 
         font-weight="bold" 
-        fill="#090933">Crave</text>
+        fill="#FC8019">Crave</text>
         
   <!-- Decorative underline -->
   <path d="M210 135 Q300 135 330 135" 
-        stroke="#090933" 
+        stroke="#FC8019" 
         stroke-width="4" 
         stroke-linecap="round"
         fill="none"/>
