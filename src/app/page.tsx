@@ -1,16 +1,10 @@
 'use client'
 import './globals.css'
-import Head from 'next/head';
 import Image from 'next/image';
 
 export default function Home() {
   return (
     <>
-      <Head>
-        <style>
-          @import url('https://fonts.googleapis.com/css2?family=Playwrite+GB+S:ital,wght@0,100..400;1,100..400&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-        </style>
-      </Head>
       <nav className="p-3 bg-[#ffff] flex relative">
           <Image src='icons/main-logo.svg' alt='logo' width={200} height={200} className='ml-28 mt-2' onClick={() => window.location.href='/'}/>
           <Image src='icons/bag.svg' alt='bag' width={23} height={23} className='absolute right-40 mt-6 pt-1 mr-3'/>
