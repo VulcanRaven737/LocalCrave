@@ -8,8 +8,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen relative overflow-x-hidden">
-      <ParticleBackground />
-     
+      <ParticleBackground />     
       {/* Main Content */}
       <main className="container mx-auto flex items-center justify-center min-h-screen mt-8 md:pt-32">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16">
@@ -33,19 +32,19 @@ export default function Home() {
                 </p>
                 <p className="mt-4 lg:mt-6 text-base md:text-lg text-black leading-relaxed max-w-xl lg:max-w-none mx-auto lg:mx-0">
                   <button
-                    onClick={() => router.push('/motd')}
+                    onClick={() => router.push('/menu')}
                     className="text-[#404040] hover:text-[#FC8019] transition-colors"
                   >
                     Bengaluru
                   </button>
                   <button
-                    onClick={() => router.push('/motd')}
+                    onClick={() => router.push('/menu')}
                     className="ml-4 text-[#FC8019] hover:text-[#404040] transition-colors"
                   >
                     Chennai
                   </button>
                   <button
-                    onClick={() => router.push('/motd')}
+                    onClick={() => router.push('/menu')}
                     className="ml-4 text-[#404040] hover:text-[#FC8019] transition-colors"
                   >
                     Hyderabad
