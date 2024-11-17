@@ -2,11 +2,11 @@ import { hash } from 'bcryptjs'
 import { NextResponse } from 'next/server'
 import clientPromise from '@/lib/mongodb'
 
-export async function POST(req) {
+export async function POST(req: Request) {
   try {
-    const { email, password, name } = await req.json()
+    const { email, password, name, userType } = await req.json()
     
-    if (!email || !password || !name) {
+    if (!email || !password || !name || !userType) {
       return new NextResponse('Missing required fields', { status: 400 })
     }
 
@@ -24,6 +24,7 @@ export async function POST(req) {
       email,
       password: hashedPassword,
       name,
+      userType,
       createdAt: new Date()
     })
 
@@ -31,7 +32,8 @@ export async function POST(req) {
       user: {
         id: result.insertedId,
         email,
-        name
+        name,
+        userType
       }
     })
   } catch (error) {

@@ -3,6 +3,7 @@ import "./globals.css";
 import Footer from '@/components/footer';
 import NavBar from '@/components/navbar';
 import { Providers } from './providers'
+import {NextUIProvider} from "@nextui-org/react";
 
 export const metadata: Metadata = {
   title: 'LocalCrave',

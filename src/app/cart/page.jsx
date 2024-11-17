@@ -1,53 +1,22 @@
 'use client'
+
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import ParticleBackground from '@/components/particles'
 import { Minus, Plus, Trash2, ArrowLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
-// Demo data structure matching potential MongoDB schema
-const demoCartItems = [
-  {
-    _id: "1",
-    name: "Home-style Dal Makhani",
-    description: "Creamy black lentils slow-cooked overnight with authentic spices",
-    price: 249,
-    image: "/images/dal-makhani.jpeg",
-    quantity: 2,
-    maxQuantity: 20,
-    isVegetarian: true,
-    cookingTime: "45 mins",
-    chefName: "Priya Sharma"
-  },
-  {
-    _id: "2",
-    name: "Hyderabadi Chicken Biryani",
-    description: "Aromatic basmati rice cooked with tender chicken and signature spices",
-    price: 299,
-    image: "/images/biriyani.jpeg",
-    quantity: 1,
-    maxQuantity: 15,
-    isVegetarian: false,
-    cookingTime: "50 mins",
-    chefName: "Ahmed Khan"
-  }
-];
-
-
 export default function Cart() {
   const router = useRouter();
-  const [cartItems, setCartItems] = useState(demoCartItems);
+  const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // This will be used for MongoDB integration
   const fetchCartItems = async () => {
     try {
       setLoading(true);
-      // When implementing MongoDB, replace with:
-      // const response = await fetch('/api/cart');
-      // const data = await response.json();
-      // setCartItems(data);
-      setCartItems(demoCartItems);
+      const response = await fetch('/api/cart');
+      const data = await response.json();
+      setCartItems(data);
     } catch (error) {
       console.error("Error fetching cart items:", error);
     } finally {
@@ -55,14 +24,17 @@ export default function Cart() {
     }
   };
 
+  useEffect(() => {
+    fetchCartItems();
+  }, []);
+
   const updateQuantity = async (itemId, newQuantity) => {
     try {
-      // When implementing MongoDB, add:
-      // await fetch(`/api/cart/${itemId}`, {
-      //   method: 'PATCH',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ quantity: newQuantity })
-      // });
+      await fetch(`/api/cart/${itemId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ quantity: newQuantity })
+      });
 
       setCartItems(prevItems =>
         prevItems.map(item =>
@@ -76,11 +48,17 @@ export default function Cart() {
     }
   };
 
+  const handleQuantityChange = async (itemId, newQuantity) => {
+    if (newQuantity < 1) {
+      await removeItem(itemId);
+    } else {
+      await updateQuantity(itemId, newQuantity);
+    }
+  };
+
   const removeItem = async (itemId) => {
     try {
-      // When implementing MongoDB, add:
-      // await fetch(`/api/cart/${itemId}`, { method: 'DELETE' });
-      
+      await fetch(`/api/cart/${itemId}`, { method: 'DELETE' });
       setCartItems(prevItems =>
         prevItems.filter(item => item._id !== itemId)
       );
@@ -89,7 +67,6 @@ export default function Cart() {
     }
   };
 
-  // Calculate totals
   const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const deliveryFee = 40;
   const total = subtotal + deliveryFee;
@@ -171,29 +148,31 @@ export default function Cart() {
                         <div className="flex justify-between items-center mt-4">
                           <div className="flex items-center gap-4">
                             <button
+                              onClick={() => handleQuantityChange(item._id, item.quantity - 1)}
+                              className="text-red-500 hover:text-red-600 transition-colors"
+                              disabled={item.quantity <= 1}
+                            >
+                              <Minus className="w-5 h-5" />
+                            </button>
+                            
+                            <div className="flex items-center gap-3 bg-gray-100 rounded-full px-4 py-1">
+                              <span className="w-8 text-center">{item.quantity}</span>
+                            </div>
+                            
+                            <button
+                              onClick={() => handleQuantityChange(item._id, item.quantity + 1)}
+                              className="text-[#404040] hover:text-[#FC8019] transition-colors"
+                              disabled={item.quantity >= item.maxQuantity}
+                            >
+                              <Plus className="w-5 h-5" />
+                            </button>
+                            
+                            <button
                               onClick={() => removeItem(item._id)}
                               className="text-red-500 hover:text-red-600 transition-colors"
                             >
                               <Trash2 className="w-5 h-5" />
                             </button>
-                            
-                            <div className="flex items-center gap-3 bg-gray-100 rounded-full px-4 py-1">
-                              <button
-                                onClick={() => updateQuantity(item._id, Math.max(1, item.quantity - 1))}
-                                className="text-[#404040] hover:text-[#FC8019] transition-colors"
-                                disabled={item.quantity <= 1}
-                              >
-                                <Minus className="w-4 h-4" />
-                              </button>
-                              <span className="w-8 text-center">{item.quantity}</span>
-                              <button
-                                onClick={() => updateQuantity(item._id, Math.min(item.maxQuantity, item.quantity + 1))}
-                                className="text-[#404040] hover:text-[#FC8019] transition-colors"
-                                disabled={item.quantity >= item.maxQuantity}
-                              >
-                                <Plus className="w-4 h-4" />
-                              </button>
-                            </div>
                           </div>
                           
                           <div className="text-sm text-[#404040]">
