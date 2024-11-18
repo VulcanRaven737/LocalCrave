@@ -2,8 +2,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Facebook, Instagram, Twitter } from 'lucide-react';
+import { useRouter } from 'next/navigation'
 
 const Footer = () => {
+  const router = useRouter();
   return (
     <footer className="bg-white/10 backdrop-blur-sm text-black py-8">
       <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-16">
@@ -16,6 +18,7 @@ const Footer = () => {
               width={150} 
               height={150} 
               className='w-28 md:w-36 lg:w-44 transition-transform hover:scale-105'
+              onClick={()=>router.push('/')}
             />
           </div>
 
@@ -28,8 +31,8 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/menu" className="text-sm hover:text-[#FC8019] transition-colors">
-                  Our Menu
+                <Link href="/ourchefs" className="text-sm hover:text-[#FC8019] transition-colors">
+                  Our Chefs
                 </Link>
               </li>
               <li>
@@ -61,7 +64,7 @@ const Footer = () => {
 
         {/* Copyright */}
         <div className="mt-8 text-center justify-center text-sm text-gray-600">
-          &copy; {new Date().getFullYear()} Your Company Name. All rights reserved.
+          &copy; {new Date().getFullYear()} LocalCrave. All rights reserved.
         </div>
       </div>
     </footer>

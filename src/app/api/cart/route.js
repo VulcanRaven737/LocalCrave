@@ -9,13 +9,70 @@ export async function GET(req) {
   }
 
   const client = await clientPromise;
-  const cartCollection = client.db('your-db-name').collection('carts');
+  const db = client.db('your-db-name');
 
   try {
-    // Find all cart items for the user
-    const cartItems = await cartCollection
-      .find({ userId: session.user.email })
-      .toArray();
+    // Aggregate to join cart items with menu items to get full details
+    const cartItems = await db.collection('carts').aggregate([
+      {
+        $match: { userId: session.user.email }
+      },
+      {
+        $lookup: {
+          from: 'menus',
+          localField: 'chefId',
+          foreignField: 'chefEmail',
+          as: 'menuData'
+        }
+      },
+      {
+        $unwind: '$menuData'
+      },
+      {
+        $addFields: {
+          menuItem: {
+            $arrayElemAt: [
+              {
+                $filter: {
+                  input: '$menuData.items',
+                  as: 'item',
+                  cond: { $eq: ['$$item.name', '$itemName'] }
+                }
+              },
+              0
+            ]
+          }
+        }
+      },
+      {
+        $lookup: {
+          from: 'chefs',
+          localField: 'chefId',
+          foreignField: 'email',
+          as: 'chefData'
+        }
+      },
+      {
+        $unwind: '$chefData'
+      },
+      {
+        $project: {
+          _id: 1,
+          itemName: 1,
+          quantity: 1,
+          chefId: 1,
+          createdAt: 1,
+          updatedAt: 1,
+          price: '$menuItem.price',
+          description: '$menuItem.description',
+          image: '$menuItem.image',
+          isVegetarian: '$menuItem.isVegetarian',
+          cookingTime: '$menuItem.cookingTime',
+          maxQuantity: { $ifNull: ['$menuItem.maxQuantity', 10] },
+          chefName: '$chefData.name'
+        }
+      }
+    ]).toArray();
 
     return NextResponse.json(cartItems, { status: 200 });
   } catch (error) {
@@ -91,7 +148,6 @@ export async function PATCH(req) {
   try {
     const { items } = await req.json();
     
-    // Validate items array
     if (!Array.isArray(items)) {
       return NextResponse.json({ error: 'Invalid items format' }, { status: 400 });
     }
@@ -100,7 +156,6 @@ export async function PATCH(req) {
     await cartCollection.deleteMany({ userId: session.user.email });
 
     if (items.length > 0) {
-      // Insert new cart items with proper structure
       const cartItems = items.map(item => ({
         itemName: item.itemName,
         chefId: item.chefId,

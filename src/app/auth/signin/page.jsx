@@ -7,15 +7,26 @@ import Link from 'next/link';
 
 export default function SignIn() {
   const router = useRouter();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  // Enhanced useEffect to handle chef routing
   useEffect(() => {
-    if (session?.user?.userType === 'chef') {
-      router.push('/chefs'); // Redirect chefs directly to the /chefs page if they are signed in
+    // Only proceed if we have a valid session and the authentication status is "authenticated"
+    if (status === 'authenticated' && session?.user?.userType === 'chef') {
+      router.push('/chefs');
     }
-  }, [session, router]);
+  }, [session, status, router]);
+
+  // Prevent showing the sign-in form if user is already authenticated as a chef
+  if (status === 'loading') {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">Loading...</div>
+      </div>
+    );
+  }
 
   async function onSubmit(e) {
     e.preventDefault();
@@ -24,26 +35,29 @@ export default function SignIn() {
 
     const formData = new FormData(e.currentTarget);
 
-    const result = await signIn('credentials', {
-      email: formData.get('email'),
-      password: formData.get('password'),
-      redirect: false,
-    });
+    try {
+      const result = await signIn('credentials', {
+        email: formData.get('email'),
+        password: formData.get('password'),
+        redirect: false,
+      });
 
-    if (result?.error) {
-      setError('Invalid email or password');
-      setIsLoading(false);
-    } else {
-      const userType = result?.user?.userType;
-      if (userType === 'chef') {
+      if (result?.error) {
+        setError('Invalid email or password');
+      } else if (session?.user?.userType === 'chef') {
         router.push('/chefs');
       } else {
         router.push('/');
         router.refresh();
       }
+    } catch (err) {
+      setError('An unexpected error occurred');
+    } finally {
+      setIsLoading(false);
     }
   }
 
+  // Rest of your component remains the same
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">

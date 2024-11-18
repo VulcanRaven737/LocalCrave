@@ -275,7 +275,7 @@ export const ChefCard = ({ chef, userId }: ChefCardProps) => {
                   >
                     <Box sx={{ position: 'relative', height: 200, mb: 2 }}>
                       <Image
-                        src={item.image || '/placeholder-food.jpg'}
+                        src={item.image || '/images/food.jpeg'}
                         alt={item.name}
                         fill
                         style={{ objectFit: 'cover', borderRadius: 8 }}
