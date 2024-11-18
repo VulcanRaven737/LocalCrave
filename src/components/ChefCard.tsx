@@ -130,12 +130,45 @@ export const ChefCard = ({ chef, userId }: ChefCardProps) => {
           quantity,
         }),
       });
-
+  
       if (!response.ok) {
         const errorData = await response.json().catch(() => null);
         throw new Error(errorData?.message || 'Failed to add to cart');
       }
-
+  
+      // Store cart item in localStorage
+      const cartItem = {
+        userId,
+        chefId: chef._id,
+        chefName: chef.name,
+        itemId: item.id,
+        itemName: item.name,
+        price: item.price,
+        quantity,
+        image: item.image,
+        addedAt: new Date().toISOString()
+      };
+  
+      // Retrieve existing cart items
+      const existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
+      
+      // Check if item already exists in cart
+      const existingItemIndex = existingCart.findIndex(
+        (cartItem: any) => 
+          cartItem.itemId === item.id && cartItem.chefId === chef._id
+      );
+  
+      if (existingItemIndex > -1) {
+        // Update quantity if item exists
+        existingCart[existingItemIndex].quantity += quantity;
+      } else {
+        // Add new item to cart
+        existingCart.push(cartItem);
+      }
+  
+      // Save updated cart to localStorage
+      localStorage.setItem('cart', JSON.stringify(existingCart));
+  
       showNotification('Item added to cart successfully!', 'success');
       setSelectedItem(null);
       setQuantity(1);
@@ -146,7 +179,7 @@ export const ChefCard = ({ chef, userId }: ChefCardProps) => {
       setAddingToCart(false);
     }
   };
-
+  
   return (
     <>
       <Card 

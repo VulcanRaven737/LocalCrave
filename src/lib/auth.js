@@ -1,4 +1,3 @@
-// /lib/auth.ts
 import { compare, hash } from 'bcryptjs'
 import { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
@@ -10,7 +9,8 @@ export const authOptions = {
       name: 'Credentials',
       credentials: {
         email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" }
+        password: { label: "Password", type: "password" },
+        userType: { label: "User Type", type: "text" }
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials.password) {
@@ -34,7 +34,8 @@ export const authOptions = {
         return {
           id: user._id.toString(),
           email: user.email,
-          name: user.name
+          name: user.name,
+          userType: user.userType || 'user' 
         }
       }
     })
@@ -51,12 +52,14 @@ export const authOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id
+        token.userType = user.userType || 'user'
       }
       return token
     },
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id
+        session.user.userType = token.userType
       }
       return session
     }

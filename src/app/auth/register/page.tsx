@@ -49,6 +49,7 @@ export default function Register() {
       const result = await signIn('credentials', {
         email,
         password,
+        userType,
         redirect: false
       })
 

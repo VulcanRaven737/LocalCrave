@@ -387,19 +387,6 @@ const ChefDashboard = () => {
             onChange={(e) => setNewMenuItem({...newMenuItem, availableQuantity: e.target.value})} 
             sx={{ mb: 2 }}
           />
-
-          <FormControl fullWidth sx={{ mb: 2 }}>
-            <InputLabel>City</InputLabel>
-            <Select
-              value={newMenuItem.city}
-              label="City"
-              onChange={(e) => setNewMenuItem({...newMenuItem, city: e.target.value})}
-            >
-              <MenuItem value="Chennai">Chennai</MenuItem>
-              <MenuItem value="Bangalore">Bangalore</MenuItem>
-              <MenuItem value="Hyderabad">Hyderabad</MenuItem>
-            </Select>
-          </FormControl>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setIsMenuDialog(false)} color="primary">Cancel</Button>
